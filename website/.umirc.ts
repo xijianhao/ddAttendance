@@ -23,7 +23,7 @@ export default defineConfig({
   title: '酷应用getting started',
   proxy: {
     '/api': {
-      'target': 'http://127.0.0.1:3000',
+      'target': 'http://127.0.0.1:3031',
       'changeOrigin': true,
     },
   },

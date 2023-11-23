@@ -38,7 +38,7 @@
     "start": "NODE_ENV=production node ./bootstrap.js",
     "dev": "npm run debug:node & npm run debug:web",
     "debug:web": "cd website && npm start",
-    "debug:node": "cross-env NODE_ENV=local midway-bin dev --ts --port=3000",
+    "debug:node": "cross-env NODE_ENV=local midway-bin dev --ts --port=3031",
     "website:build": "cd website && npm i && npm run build",
     "test": "midway-bin test --ts",
     "cov": "midway-bin cov --ts",

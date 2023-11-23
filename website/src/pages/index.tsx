@@ -16,7 +16,7 @@ const Home: React.FC = () => {
   const [openConversationId] = useState(() => {
     return query.get('openConversationId') || '';
   });
-
+  const [accessToken, setAccessToken] = useState('')
   const [userInfo, setUserInfo] = useState<any>({});
   const [form] = Form.useForm<{
     title: string;
@@ -24,13 +24,15 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     // 鉴权
-    const ddconfig = axios.get('/api/getConfigData', {
+    // alert(`----${query.get('corpid')}------` || 'xxxxxxx')
+    axios.get('/api/getConfigData', {
       params: {
-        agentId: 'xxxxxxx',
+        // agentId: 'f14744e4-ddf5-4623-93cf-c637157f7e65',
+        agentId: 'f14744e4-ddf5-4623-93cf-c637157f7e65',
         url: encodeURIComponent(location.href.split('#')[0])
       }
-    }).then((res) => {
-      console.log('res', res);
+    }).then((res: any) => {
+     
       dd.config({
         nonceStr: res.data.nonceStr,
         timeStamp: res.data.timeStamp,
@@ -49,10 +51,8 @@ const Home: React.FC = () => {
         ] // 必填，需要使用的jsapi列表
       });
       // TODO: 需要在这里调用ddconfig
-      // ddconfig();
-
       dd.error(function (err) {
-        alert('dd error: ' + JSON.stringify(err));
+        alert('dd error-------------' + 'f14744e4-ddf5-4623-93cf-c637157f7e65' + JSON.stringify(err));
       });
     })
   }, []);
@@ -64,7 +64,6 @@ const Home: React.FC = () => {
         corpId: query.get('corpId') || query.get('corpid') || '', // 企业id
       })
       .then((info) => {
-        console.log('info', info);
         const code = info.code; // 通过该免登授权码可以获取用户身份
         axios
           .get('/api/getUserInfo', {
@@ -76,14 +75,22 @@ const Home: React.FC = () => {
             return result.data;
           })
           .then((res) => {
-            console.log(res.data);
+            alert(`userdata: ${JSON.stringify(res.data)}`)
             setUserInfo(res.data);
           });
       })
       .catch((err) => {
-        console.error('获取授权码失败：' + err);
+        alert('获取授权码失败：' + JSON.stringify(err));
       });
   }, []);
+
+
+  useEffect(() => {
+    axios.post('/api/getVacationList').then((res) => {
+      alert(`==${JSON.stringify(res)}==`)
+    })
+  
+  }, [])
 
   const handleSubmit = React.useCallback(async () => {
     const { title } = form.getFieldsValue();
@@ -141,10 +148,8 @@ const Home: React.FC = () => {
         <p className="sub-title">
           当前服务地址：http://127.0.0.1:7001/index.html
         </p>
-        <p className="sub-title">点击下方模拟发送体验卡片效果</p>
-        <p><a href='https://open.dingtalk.com/document/org/cool-application-overview' target={"_blank"}>酷应用开发指南</a></p>
       </div>
-      <Card title={'已接入钉钉免登录'}>
+      <Card title={'已接入钉钉免登123录'}>
         <div className="user-card">
           <img
             src={
@@ -163,8 +168,7 @@ const Home: React.FC = () => {
           <Form.Item name="title" rules={[{ required: false }]}>
             <Input placeholder="随便输入点什么" />
           </Form.Item>
-          <Divider>Text</Divider>
-          <Button htmlType="submit" type="primary" block>
+          <Button htmlType="submit" type="primary">
             试一试
           </Button>
         </Form>

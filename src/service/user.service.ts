@@ -33,6 +33,7 @@ export class UserService {
         }
       }
     } catch(error){
+      console.log('userinfo-----',error)
       this.logger.error(error);
       throw new MidwayError(error);
     }
@@ -111,4 +112,22 @@ export class UserService {
     }
   }
 
+  async getVacationList() {
+    try {
+      const access_token = await this.getToken();
+      const result: any = await makeHttpRequest(
+        `https://oapi.dingtalk.com/topapi/attendance/vacation/quota/list?access_token=${access_token}`,
+        {
+          dataType: 'json',
+        }
+      );
+      console.log(222222,result.data)
+      if (result.status === 200) {
+        return result.data;
+      } 
+    } catch (error) {
+      this.logger.error(error);
+      throw new MidwayError(error);
+    }
+  }
 }

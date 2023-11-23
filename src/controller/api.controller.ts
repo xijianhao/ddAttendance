@@ -138,4 +138,17 @@ export class APIController {
     const result = await this.userService.getUserInfo(requestAuthCode);
     return { success: true, code: 200, message: 'OK', data: result };
   }
+
+    /**
+   * 通过机器人发送吊顶卡片
+   * @param cid 群ID
+   * @returns
+   */
+    @Post('/getVacationList')
+    async getVacationList() {
+      const result = await this.userService.getVacationList();
+      return { success: true, code: 200, message: 'OK', data: result };
+    }
+  
+
 }
