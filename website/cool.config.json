@@ -1,0 +1,57 @@
+{
+  "tenant": "dingone",
+  "app_name": "哈哈考勤",
+  "icon": "https://i01.lw.aliimg.com/media/lADPDfmVdZxU3J7NAwDNAwA_768_768.jpg",
+  "app_owner_ids": "[{\"corpId\":\"ding81dc0fa41a6fe7f7ffe93478753d9884\",\"orgName\":\"nan得糊涂丶\",\"name\":\"席剑豪\",\"staffId\":\"130939444223857958\",\"uid\":315411222,\"avatarMediaId\":\"@lADPM4AfIzuiEFDNBJLNBJI\",\"permission\":{\"application\":true,\"developer\":true},\"_persist\":{\"version\":-1,\"rehydrated\":true}}]",
+  "tenant_id": "ding81dc0fa41a6fe7f7ffe93478753d9884",
+  "app_type": 1,
+  "app_desc": "考勤111",
+  "web_app_id": 2775081332,
+  "web_app_info": {
+    "agentId": 2775081332,
+    "appKey": "dingntyfomwvj0dior3m",
+    "appSecret": "WLL2tj39UTjq_NZVMZtILRS6q2vmj5JTobVZPtBdkJjRAQzVbyZjMwKjEOyOIeDv",
+    "appStatus": 1,
+    "appType": 1,
+    "canDelete": true,
+    "canUpdate": true,
+    "deleteStatus": 0,
+    "desc": "考勤111",
+    "developType": 0,
+    "gmtCreate": 1698110136000,
+    "gmtModified": 1700718391000,
+    "hidden": false,
+    "homepageLink": "http://172.16.25.119:7001",
+    "icon": "@lADPDfmVdZxU3J7NAwDNAwA",
+    "iconUrl": "https://i01.lw.aliimg.com/media/lADPDfmVdZxU3J7NAwDNAwA_768_768.jpg",
+    "id": 2775081332,
+    "ipWhiteList": [
+      "172.16.25.119",
+      "222.130.199.238"
+    ],
+    "isGraphEnabled": false,
+    "isUnifiedAppDev": true,
+    "linkGateWayPush": true,
+    "miniAppOnPc": false,
+    "name": "哈哈考勤",
+    "ompLink": "",
+    "pcHomepageLink": "http://172.16.25.119:7001",
+    "publishStatus": "1",
+    "robotCode": "dingntyfomwvj0dior3m",
+    "scopeSupportDynamicGroupGray": false,
+    "scopeSupportRoleGray": true,
+    "shortcut": false,
+    "sortOrder": 2900,
+    "sourceLevel": 0,
+    "timeToDel": 0,
+    "unifiedAppId": "f14744e4-ddf5-4623-93cf-c637157f7e65",
+    "visibleScopes": [
+      {
+        "uid": 315411222,
+        "name": "席剑豪",
+        "staffId": "130939444223857958"
+      }
+    ]
+  },
+  "id": 9576
+}

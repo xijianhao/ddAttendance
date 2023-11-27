@@ -27,6 +27,9 @@ export default {
     messageCardTemplateId001: '9b705ffa-b47e-4952-bfa5-dabed67c8572',
     topCardTemplateId001: 'f582b8b8-a86c-4f5c-8b09-1f34af08833d'
   },
+
+  users: ['130939444223857958', '264151115926190239', '033904470626099278'],
+
   coolAppConfig: config
 
 } as MidwayConfig;

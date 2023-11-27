@@ -1,6 +1,8 @@
 import { Provide, Config, Logger } from '@midwayjs/decorator';
 import { makeHttpRequest, MidwayError } from '@midwayjs/core';
 import { ILogger } from '@midwayjs/logger';
+import dayjs from 'dayjs'
+
 @Provide()
 export class UserService {
   @Logger()
@@ -8,6 +10,9 @@ export class UserService {
 
   @Config('coolAppConfig')
   demoConfig;
+
+  @Config('users')
+  users;
 
    /**
    * 获取用户信息
@@ -112,20 +117,89 @@ export class UserService {
     }
   }
 
+
+  // async getGroupMembersList() {
+  //   try {
+  //     const access_token = await this.getToken();
+  //     const result: any = await makeHttpRequest(
+  //       `https://oapi.dingtalk.com/topapi/im/chat/scenegroup/member/get?access_token=${access_token}`,
+  //       {
+  //         dataType: 'json',
+  //         data:{
+  //           cursor: '0',
+  //           size: 10000,
+  //           open_conversation_id: ''
+  //         }
+  //       }
+  //     );
+  //     console.log(333333,result.data)
+  //     if (result.status === 200) {
+  //       return result.data;
+  //     } 
+  //   } catch (error) {
+  //     this.logger.error(error);
+  //     throw new MidwayError(error);
+  //   }
+  // }
+
+  // 获取假期列表
   async getVacationList() {
+    let result = []
+    for (const iterator of  this.users) {
+      result.push({
+        info: await this.getUser(iterator)
+      })
+    }
+    return result
+  }
+
+  // 获取单个用户考勤数据
+  async getUserAttendance(userid:string) {
     try {
       const access_token = await this.getToken();
       const result: any = await makeHttpRequest(
-        `https://oapi.dingtalk.com/topapi/attendance/vacation/quota/list?access_token=${access_token}`,
+        `https://oapi.dingtalk.com/topapi/attendance/getupdatedata?access_token=${access_token}`,
         {
           dataType: 'json',
+          data:{
+            userid,
+            work_date: dayjs().format('YYYY-MM-DD')
+          }
         }
       );
-      console.log(222222,result.data)
       if (result.status === 200) {
+        console.log('00000---',result.data)
         return result.data;
       } 
     } catch (error) {
+      console.log('00000---',error)
+      this.logger.error(error);
+      throw new MidwayError(error);
+    }
+  }
+  // 获取单个用户考勤数据
+  async getUser(userid:string) {
+    try {
+      const access_token = await this.getToken();
+      const result: any = await makeHttpRequest(
+        `https://oapi.dingtalk.com/topapi/v2/user/get?access_token=${access_token}`,
+        {
+          dataType: 'json',
+          data:{
+            userid,
+          }
+        }
+      );
+      if (result.status === 200) {
+      
+        const {avatar, name, mobile, hide_mobile, title} = result.data.result
+        return {
+          avatar, name, mobile, hide_mobile, title
+        }
+      } 
+
+    } catch (error) {
+      console.log('error---',error)
       this.logger.error(error);
       throw new MidwayError(error);
     }
