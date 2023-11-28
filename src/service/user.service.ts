@@ -14,6 +14,9 @@ export class UserService {
   @Config('users')
   users;
 
+  @Config('managerUserId')
+  managerUserId;
+
    /**
    * 获取用户信息
    */
@@ -118,30 +121,6 @@ export class UserService {
   }
 
 
-  // async getGroupMembersList() {
-  //   try {
-  //     const access_token = await this.getToken();
-  //     const result: any = await makeHttpRequest(
-  //       `https://oapi.dingtalk.com/topapi/im/chat/scenegroup/member/get?access_token=${access_token}`,
-  //       {
-  //         dataType: 'json',
-  //         data:{
-  //           cursor: '0',
-  //           size: 10000,
-  //           open_conversation_id: ''
-  //         }
-  //       }
-  //     );
-  //     console.log(333333,result.data)
-  //     if (result.status === 200) {
-  //       return result.data;
-  //     } 
-  //   } catch (error) {
-  //     this.logger.error(error);
-  //     throw new MidwayError(error);
-  //   }
-  // }
-
   // 获取假期列表
   async getVacationList() {
     let result = []
@@ -214,7 +193,7 @@ export class UserService {
         {
           dataType: 'json',
           data:{
-            op_userid: '130939444223857958', // 管理员userid
+            op_userid: this.managerUserId, // 管理员userid
             vacation_source: 'all'
           }
         }
@@ -231,7 +210,7 @@ export class UserService {
               dataType: 'json',
               data:{
                 leave_code: iterator.leave_code, 
-                op_userid: '130939444223857958',
+                op_userid: this.managerUserId,
                 userids:this.users,
                 offset: 0,
                 size: 50,

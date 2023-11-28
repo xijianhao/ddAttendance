@@ -30,6 +30,8 @@ export default {
 
   users: ['130939444223857958', '264151115926190239', '033904470626099278'],
 
+  managerUserId: '130939444223857958',
+
   coolAppConfig: config
 
 } as MidwayConfig;
