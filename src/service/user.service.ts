@@ -147,7 +147,8 @@ export class UserService {
     let result = []
     for (const iterator of  this.users) {
       result.push({
-        info: await this.getUser(iterator)
+        info: await this.getUser(iterator),
+        approve_list: await this.getUserAttendance(iterator)
       })
     }
     return result
@@ -168,16 +169,15 @@ export class UserService {
         }
       );
       if (result.status === 200) {
-        console.log('00000---',result.data)
-        return result.data;
+        const {approve_list} = result.data.result
+        return approve_list
       } 
     } catch (error) {
-      console.log('00000---',error)
       this.logger.error(error);
       throw new MidwayError(error);
     }
   }
-  // 获取单个用户考勤数据
+  // 获取单个用户基本信息
   async getUser(userid:string) {
     try {
       const access_token = await this.getToken();
@@ -192,11 +192,61 @@ export class UserService {
       );
       if (result.status === 200) {
       
-        const {avatar, name, mobile, hide_mobile, title} = result.data.result
+        const {avatar, name, mobile, hide_mobile, title, userid} = result.data.result
         return {
-          avatar, name, mobile, hide_mobile, title
+          avatar, name, mobile, hide_mobile, title, userid
         }
       } 
+
+    } catch (error) {
+      console.log('error---',error)
+      this.logger.error(error);
+      throw new MidwayError(error);
+    }
+  }
+
+  // 获取假期类型列表
+  async getVacationTypeList() {
+    try {
+      const access_token = await this.getToken();
+      const result: any = await makeHttpRequest(
+        `https://oapi.dingtalk.com/topapi/attendance/vacation/type/list?access_token=${access_token}`,
+        {
+          dataType: 'json',
+          data:{
+            op_userid: '130939444223857958', // 管理员userid
+            vacation_source: 'all'
+          }
+        }
+      );
+
+        const resultArr = [];
+    
+
+      if (result.status === 200) {
+        for (const iterator of result.data.result) {
+          const qoutaResult: any = await makeHttpRequest(
+            `https://oapi.dingtalk.com/topapi/attendance/vacation/quota/list?access_token=${access_token}`,
+            {
+              dataType: 'json',
+              data:{
+                leave_code: iterator.leave_code, 
+                op_userid: '130939444223857958',
+                userids:this.users,
+                offset: 0,
+                size: 50,
+              }
+            }
+          );
+          resultArr.push({
+            ...iterator,
+            users: qoutaResult.data.result.leave_quotas,
+          })
+        }
+        console.log(resultArr)
+        return resultArr
+      } 
+      return resultArr
 
     } catch (error) {
       console.log('error---',error)
