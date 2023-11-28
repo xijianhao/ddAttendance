@@ -38,7 +38,7 @@
     "node": ">=12.0.0"
   },
   "scripts": {
-    "start": "NODE_ENV=production node ./bootstrap.js",
+    "start": "NODE_ENV=production pm2 start ./bootstrap.js --name midway_app -i 4",
     "dev": "npm run debug:node & npm run debug:web",
     "debug:web": "cd website && npm start",
     "debug:node": "cross-env NODE_ENV=local midway-bin dev --ts --port=3031",
