@@ -1,90 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import './index.less';
 import axios from 'axios';
-import { Form, Spin, Modal,Tag, TagColorEnum } from 'dingtalk-design-mobile';
+import { Spin, Modal,Tag, TagColorEnum } from 'dingtalk-design-mobile';
 import { Avatar } from 'dingtalk-design-mobile';
 import * as dd from 'dingtalk-jsapi';
-import dayjs from 'dayjs'
+
+const managerList = ['130939444223857958'] // 管理员
 
 const Home: React.FC = () => {
   const query = new URLSearchParams(location.search);
-  const [openConversationId] = useState(() => {
-    return query.get('openConversationId') || '';
-  });
   const [loading, setLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>({})
   const [userList, setUserList] = useState<any>([]);
   const [vacationTypeList, setVacationTypeList] = useState<any>([]);
-  const [userInfo, setUserInfo] = useState<any>({});
-  const [form] = Form.useForm<{
-    title: string;
-  }>();
-
-  // useEffect(() => {
-  //   // 鉴权
-  //   // alert(`----${query.get('corpid')}------` || 'xxxxxxx')
-  //   axios
-  //     .get('/api/getConfigData', {
-  //       params: {
-  //         // agentId: 'f14744e4-ddf5-4623-93cf-c637157f7e65',
-  //         agentId: 'f14744e4-ddf5-4623-93cf-c637157f7e65',
-  //         url: encodeURIComponent(location.href.split('#')[0]),
-  //       },
-  //     })
-  //     .then((res: any) => {
-  //       dd.config({
-  //         nonceStr: res.data.nonceStr,
-  //         timeStamp: res.data.timeStamp,
-  //         signature: res.data.signature,
-  //         appId: res.data.agentId, // 必填，应用ID
-  //         type: 0,
-  //         corpId: query.get('corpid') || 'xxxxxxx', // 必填，企业ID
-  //         jsApiList: [
-  //           'runtime.info',
-  //           'biz.contact.choose',
-  //           'device.notification.confirm',
-  //           'device.notification.alert',
-  //           'device.notification.prompt',
-  //           'biz.ding.post',
-  //           'biz.util.openLink',
-  //         ], // 必填，需要使用的jsapi列表
-  //       });
-  //       // TODO: 需要在这里调用ddconfig
-  //       dd.error(function (err) {
-  //         alert(
-  //           'dd error-------------' +
-  //             'f14744e4-ddf5-4623-93cf-c637157f7e65' +
-  //             JSON.stringify(err),
-  //         );
-  //       });
-  //     });
-  // }, []);
-
-  // useEffect(() => {
-  //   // 获取当前组织免登免登授权码 https://open.dingtalk.com/document/orgapp-client/obtain-the-micro-application-logon-free-authorization-code
-  //   dd.runtime.permission
-  //     .requestAuthCode({
-  //       corpId: query.get('corpId') || query.get('corpid') || '', // 企业id
-  //     })
-  //     .then((info) => {
-  //       const code = info.code; // 通过该免登授权码可以获取用户身份
-  //       axios
-  //         .get('/api/getUserInfo', {
-  //           params: {
-  //             requestAuthCode: code,
-  //           },
-  //         })
-  //         .then((result) => {
-  //           return result.data;
-  //         })
-  //         .then((res) => {
-  //           // alert(`userdata: ${JSON.stringify(res.data)}`)
-  //           setUserInfo(res.data);
-  //         });
-  //     })
-  //     .catch((err) => {
-  //       // alert('获取授权码失败：' + JSON.stringify(err));
-  //     });
-  // }, []);
+  
+  useEffect(() => {
+    dd.runtime.permission
+      .requestAuthCode({
+        corpId: query.get('corpId') || query.get('corpid') || '', // 企业id
+      })
+      .then((info) => {
+        const code = info.code; // 通过该免登授权码可以获取用户身份
+        axios
+          .get('/api/getUserInfo', {
+            params: {
+              requestAuthCode: code,
+            },
+          })
+          .then((result) => {
+            return result.data;
+          })
+          .then((res) => {
+            setCurrentUser({
+              ...res.data,
+            });
+          });
+      })
+  }, []);
 
   useEffect(() => {
     setLoading(true);
@@ -161,13 +113,24 @@ const Home: React.FC = () => {
                 <div className='user-content'>
                   {
                     vacationTypeList.map((vItem:any) => {
-                      const findData:any = vItem.users?.find((findItem:any) => findItem.userid === item.info.userid)
-                      const day = (findData?.quota_num_per_day - findData?.used_num_per_day) /100
-                      return (
-                        <div key={vItem.leave_name} className='user-item'>
-                          {day? <span style={{fontWeight: 700}}>{day}</span>: 0}
-                        </div>
-                      )
+                      if(managerList.includes(currentUser.userid)){
+                        const findData:any = vItem.users?.find((findItem:any) => findItem.userid === item.info.userid)
+                        const day = (findData?.quota_num_per_day - findData?.used_num_per_day) /100
+                        return (
+                          <div key={vItem.leave_name} className='user-item'>
+                            {day? <span style={{fontWeight: 700}}>{day}</span>: '-'}
+                          </div>
+                        )
+                      }else{
+                        const findData:any = vItem.users?.find((findItem:any) => findItem.userid === currentUser.userid && (item.info.userid === currentUser.userid))
+                        const day = (findData?.quota_num_per_day - findData?.used_num_per_day) / 100
+                        return (
+                          <div key={vItem.leave_name} className='user-item'>
+                            {day? <span style={{fontWeight: 700}}>{day}</span>: '-'}
+                          </div>
+                        )
+                      }
+                 
                     })
                   }
                 </div>
