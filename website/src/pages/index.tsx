@@ -18,6 +18,7 @@ const Home: React.FC = () => {
     dd.runtime.permission
       .requestAuthCode({
         corpId: query.get('corpId') || query.get('corpid') || '', // 企业id
+        
       })
       .then((info) => {
         const code = info.code; // 通过该免登授权码可以获取用户身份
@@ -28,7 +29,6 @@ const Home: React.FC = () => {
             },
           })
           .then((result) => {
-            alert(JSON.stringify(result.data.data))
             setCurrentUser({
               ...result.data.data,
             });
@@ -121,7 +121,10 @@ const Home: React.FC = () => {
 
                       const findData = managerList.includes(currentUser.userid) 
                       ? vItem.users?.find((findItem:any) => findItem.userid === item.info.userid)
-                      : vItem.users?.find((findItem:any) => findItem.userid === currentUser.userid && (item.info.userid === currentUser.userid))
+                      :  vItem.users?.find((findItem:any) => findItem.userid === item.info.userid)
+                      // const findData = managerList.includes(currentUser.userid) 
+                      // ? vItem.users?.find((findItem:any) => findItem.userid === item.info.userid)
+                      // : vItem.users?.find((findItem:any) => findItem.userid === currentUser.userid && (item.info.userid === currentUser.userid))
 
                       let num = 0;
                       if(findData?.quota_num_per_hour){

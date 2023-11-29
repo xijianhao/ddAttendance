@@ -37,6 +37,7 @@ export class UserService {
       );
       if(res.data && res.data.userid){
         const info = await this.getUserProfile(res.data.userid);
+        console.log(info)
         if(info){
           return {
             name:info.name,
@@ -130,6 +131,7 @@ export class UserService {
   async getVacationList() {
     let result = []
     for (const iterator of  this.users) {
+      console.log( this.users, " this.users")
       result.push({
         info: await this.getUser(iterator),
         approve_list: await this.getUserAttendance(iterator)
@@ -175,6 +177,7 @@ export class UserService {
         }
       );
       if (result.status === 200) {
+        console.log(`avatar---${JSON.stringify(result.data)}`)
         const {avatar, name, mobile, hide_mobile, title, userid} = result?.data?.result
         return {
           avatar, name, mobile, hide_mobile, title, userid
