@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import './index.less';
+
 import axios from 'axios';
 import { Spin, Modal,Tag, TagColorEnum } from 'dingtalk-design-mobile';
 import { Avatar } from 'dingtalk-design-mobile';
+import { NoticeBar, NoticeBarType, Tabs } from 'dingtalk-design-mobile';
+import './index.less';
 import * as dd from 'dingtalk-jsapi';
 
 const managerList = ['130939444223857958'] // 管理员
@@ -60,11 +62,16 @@ const Home: React.FC = () => {
   return (
     <div className="main">
       <div className="header">
-        <div className="header-title">运维组</div>
+        <div className="header-title">
+          <div className="header-title-right">类型</div>
+          <div className="header-title-left">人员</div>
+        </div>
         <div className="header-content" >
           {vacationTypeList.map((item:any) => (
             <div className="header-item">
-              {item.leave_name}
+               <div> {item.leave_name.slice(0,2)}</div>
+              <Tag size='small' color="#fff" fill="outline" style={{border: 'none'}}><span>{item.leave_view_unit}</span></Tag>
+             
             </div>
           ))}
         </div>
@@ -88,10 +95,11 @@ const Home: React.FC = () => {
                       Modal.alert(<div>
                         {item.info.name} 
                       </div>, <div>
-                          <div style={{marginBottom: '8px'}}><Tag size="medium" color={TagColorEnum.Warning}>{item.approve_list[0].sub_type} {item.approve_list[0].duration}天</Tag></div>
-                          <div>{item.approve_list[0].begin_time}</div>
+                        
+                           <div style={{marginBottom: '10px'}}><Tag size="medium" color={TagColorEnum.Warning}>{item.approve_list[0].sub_type} {item.approve_list[0].duration}天</Tag></div>
+                          <Tag size='medium'>{item.approve_list[0].begin_time}</Tag>
                           <div>～</div>
-                          <div>{item.approve_list[0].end_time}</div>
+                          <Tag size='medium'>{item.approve_list[0].end_time}</Tag>
 
                       </div>, [
                         {
@@ -101,7 +109,7 @@ const Home: React.FC = () => {
                     }
                   }}
                 >
-                  <Avatar size="default" src={item.info.avatar} />
+                  <Avatar size={!item.approve_list?.length ? 'default' : 'small'} src={item.info.avatar} />
                   <div
                     style={{
                       color: !item.approve_list?.length ? '#049DD9' : '#ff9200',
@@ -109,24 +117,32 @@ const Home: React.FC = () => {
                   >
                     {item.info.name}
                   </div>
+                  <div className="user-status">{item?.approve_list[0]?.sub_type}</div>
                 </div>
                 <div className='user-content'>
                   {
                     vacationTypeList.map((vItem:any) => {
                       if(managerList.includes(currentUser.userid)){
                         const findData:any = vItem.users?.find((findItem:any) => findItem.userid === item.info.userid)
-                        const day = (findData?.quota_num_per_day - findData?.used_num_per_day) /100
+                        let num = 0;
+                        if(findData?.quota_num_per_hour){
+                          num = (findData?.quota_num_per_hour - findData?.used_num_per_hour) / 100
+                        }
+                        if(findData?.quota_num_per_day){
+                          num =  (findData?.quota_num_per_day - findData?.used_num_per_day) / 100
+                        }
                         return (
                           <div key={vItem.leave_name} className='user-item'>
-                            {day? <span style={{fontWeight: 700}}>{day}</span>: '-'}
+                            {num? <span style={{fontWeight: 700}}>{num}</span>: '-'}
                           </div>
                         )
                       }else{
                         const findData:any = vItem.users?.find((findItem:any) => findItem.userid === currentUser.userid && (item.info.userid === currentUser.userid))
+                        const hour = (findData?.quota_num_per_hour - findData?.used_num_per_hour)
                         const day = (findData?.quota_num_per_day - findData?.used_num_per_day) / 100
                         return (
                           <div key={vItem.leave_name} className='user-item'>
-                            {day? <span style={{fontWeight: 700}}>{day}</span>: '-'}
+                            {(day || hour)? <span style={{fontWeight: 700}}>{day}</span>: '-'}
                           </div>
                         )
                       }

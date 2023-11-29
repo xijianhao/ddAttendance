@@ -31,7 +31,9 @@ export default {
   users: ['130939444223857958', '264151115926190239', '033904470626099278'],
 
   managerUserId: '130939444223857958',
-
+// 6ec52b95-54d1-486d-8fb0-e2915c5077c1 年假
+// 3cea0cf2-0de4-4e07-840b-d7782a096802 调休
+// 6303f237-7574-4346-aa60-d6083895df9a 事假
   coolAppConfig: config
-
+  
 } as MidwayConfig;
