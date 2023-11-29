@@ -120,6 +120,7 @@ const Home: React.FC = () => {
                 <div className='user-content'>
                   {
                     vacationTypeList.map((vItem:any) => {
+
                       const findData = managerList.includes(currentUser.userid) 
                       ? vItem.users?.find((findItem:any) => findItem.userid === item.info.userid)
                       : vItem.users?.find((findItem:any) => findItem.userid === currentUser.userid && (item.info.userid === currentUser.userid))
@@ -139,10 +140,14 @@ const Home: React.FC = () => {
                     })
                   }
                 </div>
-                
+              
               </div>
             ))}
+              <div>
+                  当前人id：{currentUser.userid}
+                </div>
           </div>
+          
         )}
       </div>
     </div>
