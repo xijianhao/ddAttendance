@@ -28,6 +28,7 @@ const Home: React.FC = () => {
             },
           })
           .then((result) => {
+            alert(JSON.stringify(result.data.data))
             setCurrentUser({
               ...result.data.data,
             });

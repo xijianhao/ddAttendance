@@ -39,8 +39,8 @@ export class UserService {
         const info = await this.getUserProfile(res.data.userid);
         if(info){
           return {
-            name:res.data.name,
-            userid: res.data.userid,
+            name:info.name,
+            userid: info.userid,
             avatar: info.avatar
           }
         }
@@ -175,7 +175,6 @@ export class UserService {
         }
       );
       if (result.status === 200) {
-        console.log(`----${result?.data}`)
         const {avatar, name, mobile, hide_mobile, title, userid} = result?.data?.result
         return {
           avatar, name, mobile, hide_mobile, title, userid
@@ -226,7 +225,6 @@ export class UserService {
             users: qoutaResult.data.result.leave_quotas,
           })
         }
-        console.log(resultArr)
         return resultArr
       } 
       return resultArr
