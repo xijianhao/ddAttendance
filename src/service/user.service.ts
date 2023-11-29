@@ -193,7 +193,6 @@ export class UserService {
   async getVacationTypeList() {
     try {
       const access_token = await this.getToken();
-      console.log(access_token, 111111)
       const result: any = await makeHttpRequest(
         `https://oapi.dingtalk.com/topapi/attendance/vacation/type/list?access_token=${access_token}`,
         {
@@ -207,7 +206,6 @@ export class UserService {
 
         const resultArr = [];
     
-
       if (result.status === 200) {
         for (const iterator of result.data.result) {
           const qoutaResult: any = await makeHttpRequest(

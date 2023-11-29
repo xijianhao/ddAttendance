@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-
 import axios from 'axios';
 import { Spin, Modal,Tag, TagColorEnum } from 'dingtalk-design-mobile';
 import { Avatar } from 'dingtalk-design-mobile';
-import { NoticeBar, NoticeBarType, Tabs } from 'dingtalk-design-mobile';
 import './index.less';
 import * as dd from 'dingtalk-jsapi';
 
@@ -122,31 +120,22 @@ const Home: React.FC = () => {
                 <div className='user-content'>
                   {
                     vacationTypeList.map((vItem:any) => {
-                      if(managerList.includes(currentUser.userid)){
-                        const findData:any = vItem.users?.find((findItem:any) => findItem.userid === item.info.userid)
-                        let num = 0;
-                        if(findData?.quota_num_per_hour){
-                          num = (findData?.quota_num_per_hour - findData?.used_num_per_hour) / 100
-                        }
-                        if(findData?.quota_num_per_day){
-                          num =  (findData?.quota_num_per_day - findData?.used_num_per_day) / 100
-                        }
-                        return (
-                          <div key={vItem.leave_name} className='user-item'>
-                            {num? <span style={{fontWeight: 700}}>{num}</span>: '-'}
-                          </div>
-                        )
-                      }else{
-                        const findData:any = vItem.users?.find((findItem:any) => findItem.userid === currentUser.userid && (item.info.userid === currentUser.userid))
-                        const hour = (findData?.quota_num_per_hour - findData?.used_num_per_hour)
-                        const day = (findData?.quota_num_per_day - findData?.used_num_per_day) / 100
-                        return (
-                          <div key={vItem.leave_name} className='user-item'>
-                            {(day || hour)? <span style={{fontWeight: 700}}>{day}</span>: '-'}
-                          </div>
-                        )
+                      const findData = managerList.includes(currentUser.userid) 
+                      ? vItem.users?.find((findItem:any) => findItem.userid === item.info.userid)
+                      : vItem.users?.find((findItem:any) => findItem.userid === currentUser.userid && (item.info.userid === currentUser.userid))
+
+                      let num = 0;
+                      if(findData?.quota_num_per_hour){
+                        num = (findData?.quota_num_per_hour - findData?.used_num_per_hour) / 100
                       }
-                 
+                      if(findData?.quota_num_per_day){
+                        num =  (findData?.quota_num_per_day - findData?.used_num_per_day) / 100
+                      }
+                      return (
+                        <div key={vItem.leave_name} className='user-item'>
+                          {num? <span style={{fontWeight: 700}}>{num}</span>: '-'}
+                        </div>
+                      )
                     })
                   }
                 </div>
