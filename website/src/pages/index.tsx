@@ -28,13 +28,10 @@ const Home: React.FC = () => {
             },
           })
           .then((result) => {
-            return result.data;
-          })
-          .then((res) => {
             setCurrentUser({
-              ...res.data,
+              ...result.data.data,
             });
-          });
+          })
       })
   }, []);
 

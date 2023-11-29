@@ -175,8 +175,8 @@ export class UserService {
         }
       );
       if (result.status === 200) {
-      
-        const {avatar, name, mobile, hide_mobile, title, userid} = result.data.result
+        console.log(`----${result?.data}`)
+        const {avatar, name, mobile, hide_mobile, title, userid} = result?.data?.result
         return {
           avatar, name, mobile, hide_mobile, title, userid
         }
