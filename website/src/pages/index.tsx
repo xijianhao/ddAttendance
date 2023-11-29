@@ -144,9 +144,9 @@ const Home: React.FC = () => {
               
               </div>
             ))}
-              <div>
+              {/* <div>
                   当前人id：{currentUser.userid}
-                </div>
+                </div> */}
           </div>
           
         )}
