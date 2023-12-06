@@ -99,7 +99,7 @@ const Home: React.FC = () => {
                       return;
                     } else {
                       Modal.alert(
-                        <div>{item.info.name}</div>,
+                        <div>{item.info.name}</div>, 
                         <div>
                           <div style={{ marginBottom: '10px' }}>
                             <Tag size="medium" color={TagColorEnum.Warning}>
