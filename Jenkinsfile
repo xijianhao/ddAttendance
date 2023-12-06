@@ -3,7 +3,7 @@ pipeline {
    stages {
        stage('github-pull') {
            steps {
-            //    git branch: "main",
+               git branch: "jenkins-test",
                url: "https://github.com/xijianhao/ddAttendance"
            }
        }
