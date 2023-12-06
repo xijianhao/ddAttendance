@@ -106,7 +106,7 @@ const Home: React.FC = () => {
                               {item.approve_list[0].sub_type}{' '}
                               {item.approve_list[0].duration}天
                             </Tag>
-                          </div>
+                          </div> 
                           <Tag size="medium">
                             {item.approve_list[0].begin_time}
                           </Tag>
