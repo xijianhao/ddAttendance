@@ -97,7 +97,7 @@ const Home: React.FC = () => {
                   onClick={() => {
                     if (!item.approve_list?.length) {
                       return;
-                    } else {
+                    } else { 
                       Modal.alert(
                         <div>{item.info.name}</div>, 
                         <div>
