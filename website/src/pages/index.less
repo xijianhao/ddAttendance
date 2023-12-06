@@ -6,6 +6,16 @@ html {
 }
 
 .main{
+  .title{
+    height: 40px;
+    display: flex;
+    align-items: center;
+    padding: 0px 10px;
+    background: #eee;
+    &-avatar{
+      margin-right: 4px;
+    }
+  }
   .header{
     height: 46px;
     border-bottom: 1px solid #d8d8d8;
@@ -54,6 +64,12 @@ html {
   }
   .userBox{
     display: flex;
+    &:hover .user-item{
+      background: #eee;
+    }
+    &:hover .user{
+      background: #eee;
+    }
   }
   .user{
     border-bottom: 1px solid #eee;
@@ -66,7 +82,10 @@ html {
     align-items: center;
     font-size: 12px;
     padding-top: 10px;
+    margin-top: 1px;
     position: relative;
+    overflow: hidden;
+    transition: all 0.2s;
     overflow: hidden;
   }
   .user-status{
@@ -91,5 +110,6 @@ html {
     border-right: 1px solid #eee;
     border-bottom: 1px solid #eee;
     font-size: 12px;
+    transition: all 0.2s;
   }
 }
