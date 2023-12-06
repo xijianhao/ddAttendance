@@ -109,7 +109,7 @@ const Home: React.FC = () => {
                           </div>  
                           <Tag size="medium">  
                             {item.approve_list[0].begin_time}
-                          </Tag>
+                          </Tag> 
                           <div>～</div>
                           <Tag size="medium">
                             {item.approve_list[0].end_time}
