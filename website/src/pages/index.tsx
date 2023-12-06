@@ -105,7 +105,7 @@ const Home: React.FC = () => {
                             <Tag size="medium" color={TagColorEnum.Warning}>
                               {item.approve_list[0].sub_type}{' '}
                               {item.approve_list[0].duration}天
-                            </Tag>
+                            </Tag> 
                           </div> 
                           <Tag size="medium"> 
                             {item.approve_list[0].begin_time}
