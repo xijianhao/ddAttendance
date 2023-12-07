@@ -3,9 +3,9 @@ pipeline {
    stages {
        stage('start') {
            steps {
-            //    git branch: "jenkins-test"
-            //    url: "https://github.com/xijianhao/ddAttendance"
-               echo "branch_name: ${BRANCH_NAME}"
+               git branch: "jenkins-test"
+               url: "https://github.com/xijianhao/ddAttendance"
+               echo "branch_name: ${BUILD_URL}"
            }
        }
        stage('next') {
