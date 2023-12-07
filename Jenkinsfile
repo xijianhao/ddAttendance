@@ -10,7 +10,7 @@ pipeline {
        }
        stage('next') {
            steps {
-                sleep: 10,
+                sleep 10,
                 echo: '构建完成'
            }
        }
