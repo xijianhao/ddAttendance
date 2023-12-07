@@ -5,7 +5,7 @@ pipeline {
            steps {
                git branch: "jenkins-test"
                url: "https://github.com/xijianhao/ddAttendance"
-               echo $BRANCH_NAME 
+               echo "branch_name: ${BRANCH_NAME}"
            }
        }
        stage('next') {
